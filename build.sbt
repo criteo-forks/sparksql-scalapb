@@ -1,5 +1,4 @@
 import ReleaseTransformations._
-import scalapb.compiler.Version.scalapbVersion
 
 ThisBuild / organization := "com.thesamet.scalapb"
 
@@ -7,17 +6,24 @@ ThisBuild / scalacOptions ++= Seq("-deprecation", "-target:jvm-1.8")
 
 ThisBuild / javacOptions ++= List("-target", "8", "-source", "8")
 
+val Scala211 = "2.11.12"
+
 val Scala212 = "2.12.15"
+
+// Latest version published for Scala 2.111
+val ScalapbVersion = "0.10.0-M4"
+
+ThisBuild / scalaVersion := Scala211
 
 lazy val sparkSqlScalaPB = project
   .in(file("sparksql-scalapb"))
   .settings(
     name := "sparksql-scalapb",
-    crossScalaVersions := Seq(Scala212),
+    crossScalaVersions := Seq(Scala211, Scala212),
     libraryDependencies ++= Seq(
       "org.typelevel" %% "frameless-dataset" % "0.8.0",
-      "com.thesamet.scalapb" %% "scalapb-runtime" % scalapbVersion,
-      "com.thesamet.scalapb" %% "scalapb-runtime" % scalapbVersion % "protobuf",
+      "com.thesamet.scalapb" %% "scalapb-runtime" % ScalapbVersion,
+      "com.thesamet.scalapb" %% "scalapb-runtime" % ScalapbVersion % "protobuf",
       "org.apache.spark" %% "spark-sql" % "2.4.6" % "provided",
       "org.apache.spark" %% "spark-sql" % "2.4.6" % "test",
       "org.scalatest" %% "scalatest" % "3.2.0" % "test",
